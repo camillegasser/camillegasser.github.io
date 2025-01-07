@@ -1,0 +1,55 @@
+baseURL: https://example.com
+theme: hugo-simple
+languageCode: en
+title: camille gasser
+copyright: © 2024 Camille Gasser
+enableRobotsTXT: yes
+capitalizeListTitles: no
+disableKinds: taxonomy
+taxonomies:
+  tag: tags
+permalinks:
+  blog: /:slugorfilename/
+  tags: /blog/:slug
+markup:
+  goldmark:
+    renderer:
+      unsafe: yes
+  highlight:
+    lineNos: yes
+    lineNumbersInTable: no
+    noClasses: yes
+    style: catppuccin-mocha
+  tableOfContents:
+    endLevel: 3
+    startLevel: 2
+params:
+  author:
+    email: shaolong.chen@outlook.it
+    name: Shaolong Chen
+  dateFormat: '2006-01-02'
+  description: Hugo Simple Demo
+  favicon: images/favicon.png
+  hideMadeWithLine: no
+  hideRSSLink: yes
+  title: Hugo Simple
+menu:
+  main:
+    - name: home
+      pageRef: /
+      weight: 10
+    - name: research
+      pageRef: /research
+      weight: 12
+    - name: data viz
+      pageRef: /viz
+      weight: 20
+    - name: resume
+      pageRef: /resume
+      weight: 30
+pagination:
+  pagerSize: 16
+outputs:
+  section: html
+  taxonomy: html
+  term: html
