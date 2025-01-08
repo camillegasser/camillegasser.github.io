@@ -2,67 +2,67 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://camillegasser.github.io/</loc>
+    <loc>http://localhost:4321/</loc>
     <lastmod>2024-05-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/og-image/</loc>
+    <loc>http://localhost:4321/og-image/</loc>
     <lastmod>2024-05-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/blog/</loc>
+    <loc>http://localhost:4321/blog/</loc>
     <lastmod>2024-05-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/2020-12-01-r-rmarkdown/</loc>
+    <loc>http://localhost:4321/2020-12-01-r-rmarkdown/</loc>
     <lastmod>2020-12-01T21:13:14-05:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/blog/plot/</loc>
+    <loc>http://localhost:4321/blog/plot/</loc>
     <lastmod>2020-12-01T21:13:14-05:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/blog/r-markdown/</loc>
+    <loc>http://localhost:4321/blog/r-markdown/</loc>
     <lastmod>2020-12-01T21:13:14-05:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/blog/regression/</loc>
+    <loc>http://localhost:4321/blog/regression/</loc>
     <lastmod>2020-12-01T21:13:14-05:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/blog/css/</loc>
+    <loc>http://localhost:4321/blog/css/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/blog/html/</loc>
+    <loc>http://localhost:4321/blog/html/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/blog/markdown/</loc>
+    <loc>http://localhost:4321/blog/markdown/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/markdown-syntax/</loc>
+    <loc>http://localhost:4321/markdown-syntax/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/blog/privacy/</loc>
+    <loc>http://localhost:4321/blog/privacy/</loc>
     <lastmod>2019-03-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/rich-content/</loc>
+    <loc>http://localhost:4321/rich-content/</loc>
     <lastmod>2019-03-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/blog/shortcodes/</loc>
+    <loc>http://localhost:4321/blog/shortcodes/</loc>
     <lastmod>2019-03-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/placeholder-text/</loc>
+    <loc>http://localhost:4321/placeholder-text/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/blog/text/</loc>
+    <loc>http://localhost:4321/blog/text/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/math-typesetting/</loc>
+    <loc>http://localhost:4321/math-typesetting/</loc>
     <lastmod>2019-03-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/blog/emoji/</loc>
+    <loc>http://localhost:4321/blog/emoji/</loc>
     <lastmod>2019-03-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/emoji-support/</loc>
+    <loc>http://localhost:4321/emoji-support/</loc>
     <lastmod>2019-03-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://camillegasser.github.io/viz/</loc>
+    <loc>http://localhost:4321/viz/</loc>
   </url><url>
-    <loc>https://camillegasser.github.io/research/</loc>
+    <loc>http://localhost:4321/research/</loc>
   </url><url>
-    <loc>https://camillegasser.github.io/resume/</loc>
+    <loc>http://localhost:4321/resume/</loc>
   </url>
 </urlset>
