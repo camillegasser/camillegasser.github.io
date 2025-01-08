@@ -5,7 +5,7 @@ description: data science ◦ quantitative research ◦ neuroscience
 
 <div style="display: flex; gap: 35px; margin-top: 20px">
   <div style="flex: 0.9; display: flex; justify-content: center; align-items: center;">
-    <img src="/images/personal_pic.png", style="border-radius:50%">
+    <img src="/images/personal_pic.jpg", style="border-radius:50%">
   </div>
 
   <div style="flex: 2.5; display: flex; justify-content: center; align-items: center; text-align: left;">
