@@ -6,15 +6,15 @@
     <description>Recent content on camille gasser</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <managingEditor>shaolong.chen@outlook.it (Shaolong Chen)</managingEditor>
-    <webMaster>shaolong.chen@outlook.it (Shaolong Chen)</webMaster>
+    <managingEditor>ccgasser@gmail.com (Camille Gasser)</managingEditor>
+    <webMaster>ccgasser@gmail.com (Camille Gasser)</webMaster>
     <copyright>© 2024 Camille Gasser</copyright>
     <lastBuildDate>Wed, 08 May 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:4321/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>og-image</title>
       <link>http://localhost:4321/og-image/</link>
-      <pubDate>Wed, 08 May 2024 00:00:00 +0000</pubDate><author>shaolong.chen@outlook.it (Shaolong Chen)</author>
+      <pubDate>Wed, 08 May 2024 00:00:00 +0000</pubDate><author>ccgasser@gmail.com (Camille Gasser)</author>
       <guid>http://localhost:4321/og-image/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/gohugoio/hugo/blob/c46d603a027a715db604d39f7a2e68a157ef0001/docs/_vendor/github.com/gohugoio/gohugoioTheme/layouts/partials/opengraph/opengraph.html&#34;&gt;https://github.com/gohugoio/hugo/blob/c46d603a027a715db604d39f7a2e68a157ef0001/docs/_vendor/github.com/gohugoio/gohugoioTheme/layouts/partials/opengraph/opengraph.html&lt;/a&gt;&lt;/p&gt;
@@ -88,7 +88,7 @@
     <item>
       <title>Hello R Markdown</title>
       <link>http://localhost:4321/2020-12-01-r-rmarkdown/</link>
-      <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate><author>shaolong.chen@outlook.it (Shaolong Chen)</author>
+      <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate><author>ccgasser@gmail.com (Camille Gasser)</author>
       <guid>http://localhost:4321/2020-12-01-r-rmarkdown/</guid>
       <description>&lt;h1 id=&#34;r-markdown&#34;&gt;R Markdown&lt;/h1&gt;
 &lt;p&gt;This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see &lt;a href=&#34;http://rmarkdown.rstudio.com&#34;&gt;http://rmarkdown.rstudio.com&lt;/a&gt;.&lt;/p&gt;
@@ -168,7 +168,7 @@
     <item>
       <title>Markdown Syntax Guide</title>
       <link>http://localhost:4321/markdown-syntax/</link>
-      <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate><author>shaolong.chen@outlook.it (Shaolong Chen)</author>
+      <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate><author>ccgasser@gmail.com (Camille Gasser)</author>
       <guid>http://localhost:4321/markdown-syntax/</guid>
       <description>&lt;p&gt;This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.</p>
@@ -328,7 +328,7 @@
     <item>
       <title>Rich Content</title>
       <link>http://localhost:4321/rich-content/</link>
-      <pubDate>Sun, 10 Mar 2019 00:00:00 +0000</pubDate><author>shaolong.chen@outlook.it (Shaolong Chen)</author>
+      <pubDate>Sun, 10 Mar 2019 00:00:00 +0000</pubDate><author>ccgasser@gmail.com (Camille Gasser)</author>
       <guid>http://localhost:4321/rich-content/</guid>
       <description>&lt;p&gt;Hugo ships with several &lt;a href=&#34;https://gohugo.io/content-management/shortcodes/#use-hugos-built-in-shortcodes&#34;&gt;Built-in Shortcodes&lt;/a&gt; for rich content, along with a &lt;a href=&#34;https://gohugo.io/about/hugo-and-gdpr/&#34;&gt;Privacy Config&lt;/a&gt; and a set of Simple Shortcodes that enable static and no-JS versions of various social media embeds.&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>Hugo ships with several <a href="https://gohugo.io/content-management/shortcodes/#use-hugos-built-in-shortcodes">Built-in Shortcodes</a> for rich content, along with a <a href="https://gohugo.io/about/hugo-and-gdpr/">Privacy Config</a> and a set of Simple Shortcodes that enable static and no-JS versions of various social media embeds.</p>
@@ -349,31 +349,7 @@
 <br>
 <hr>
 <h2 id="vimeo-simple-shortcode">Vimeo Simple Shortcode</h2>
-<style>
-.__h_video {
-   position: relative;
-   padding-bottom: 56.23%;
-   height: 0;
-   overflow: hidden;
-   width: 100%;
-   background: #000;
-}
-.__h_video img {
-   width: 100%;
-   height: auto;
-   color: #000;
-}
-.__h_video .play {
-   height: 72px;
-   width: 72px;
-   left: 50%;
-   top: 50%;
-   margin-left: -36px;
-   margin-top: -36px;
-   position: absolute;
-   cursor: pointer;
-}
-</style><div class="s_video_simple __h_video">
+<div class="s_video_simple __h_video">
           <a href="https://vimeo.com/4.8912912e&#43;07" rel="noopener" target="_blank">
             <img src="https://i.vimeocdn.com/video/337401969-979f0cc9f55fdf305fb8984e90d92639ec9d7ecc4c9dfbc6536e28edb43784ce-d_640" srcset="https://i.vimeocdn.com/video/337401969-979f0cc9f55fdf305fb8984e90d92639ec9d7ecc4c9dfbc6536e28edb43784ce-d_640 1x, https://i.vimeocdn.com/video/337401969-979f0cc9f55fdf305fb8984e90d92639ec9d7ecc4c9dfbc6536e28edb43784ce-d_640 2x" alt="Sing Jan Swing - Kinetic Type">
             <div class="play">
@@ -385,7 +361,7 @@
     <item>
       <title>Placeholder Text</title>
       <link>http://localhost:4321/placeholder-text/</link>
-      <pubDate>Sat, 09 Mar 2019 00:00:00 +0000</pubDate><author>shaolong.chen@outlook.it (Shaolong Chen)</author>
+      <pubDate>Sat, 09 Mar 2019 00:00:00 +0000</pubDate><author>ccgasser@gmail.com (Camille Gasser)</author>
       <guid>http://localhost:4321/placeholder-text/</guid>
       <description>&lt;p&gt;Lorem est tota propiore conpellat pectoribus de pectora summo.&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>Lorem est tota propiore conpellat pectoribus de pectora summo.</p>
@@ -415,7 +391,7 @@
     <item>
       <title>Math Typesetting</title>
       <link>http://localhost:4321/math-typesetting/</link>
-      <pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate><author>shaolong.chen@outlook.it (Shaolong Chen)</author>
+      <pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate><author>ccgasser@gmail.com (Camille Gasser)</author>
       <guid>http://localhost:4321/math-typesetting/</guid>
       <description>&lt;p&gt;Mathematical notation in a Hugo project can be enabled by using third party JavaScript libraries.&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>Mathematical notation in a Hugo project can be enabled by using third party JavaScript libraries.</p>
@@ -450,7 +426,7 @@ $$</p>]]></content:encoded>
     <item>
       <title>Emoji Support</title>
       <link>http://localhost:4321/emoji-support/</link>
-      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate><author>shaolong.chen@outlook.it (Shaolong Chen)</author>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate><author>ccgasser@gmail.com (Camille Gasser)</author>
       <guid>http://localhost:4321/emoji-support/</guid>
       <description>&lt;p&gt;Emoji can be enabled in a Hugo project in a number of ways.&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>Emoji can be enabled in a Hugo project in a number of ways.</p>
@@ -472,16 +448,20 @@ $$</p>]]></content:encoded>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">3</span><span>}</span></span></code></pre></div>]]></content:encoded>
     </item>
     <item>
-      <title>data visualization</title>
+      <title>Data Visualization</title>
       <link>http://localhost:4321/viz/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>shaolong.chen@outlook.it (Shaolong Chen)</author>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>ccgasser@gmail.com (Camille Gasser)</author>
       <guid>http://localhost:4321/viz/</guid>
-      <description>&lt;div align=&#39;center&#39;&gt;
-&lt;img src=&#34;http://localhost:4321/images/paintbrush.png&#34; style=&#34;width: 15px; height: auto&#34;&gt;
-&lt;font size=2&gt;made with: &lt;b&gt;R&lt;/b&gt; (ggplot), &lt;b&gt;python&lt;/b&gt; (seaborn, matplotlib), &lt;b&gt;adobe illustrator&lt;/b&gt;&lt;/div&gt;
-&lt;h5&gt;scientific research&lt;/h5&gt;
+      <description>&lt;div style=&#34;display: flex; justify-content: center; align-items: top;&#34;&gt;
+&lt;div class=&#34;inset-box&#34;&gt;
+&lt;div style=&#34;width:100%&#34;&gt;
+made with: &lt;b&gt;R&lt;/b&gt; &lt;i&gt;(ggplot)&lt;/i&gt;, &lt;b&gt;python&lt;/b&gt; &lt;i&gt;(seaborn, matplotlib)&lt;/i&gt;, &lt;b&gt;illustrator&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h5&gt;scientific figures&lt;/h5&gt;
 &lt;div style=&#34;display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px; width: 100%; max-width: 1500px; margin: 20px auto;&#34;&gt;
+  gap: 40px; width: 100%; max-width: 1500px; margin: 10px auto;&#34;&gt;
   &lt;div style=&#34;text-align: left;&#34;&gt;
         &lt;a href=&#34;http://localhost:4321/images/viz/coviddiary_surveyvars.jpg&#34; target=&#34;_blank&#34;&gt;
           &lt;img src=&#34;http://localhost:4321/images/viz/coviddiary_surveyvars.jpg&#34; alt=&#34;Image 1&#34;
@@ -498,12 +478,16 @@ $$</p>]]></content:encoded>
            onmouseover=&#34;this.style.transform=&#39;scale(1.05)&#39;&#34; onmouseout=&#34;this.style.transform=&#39;scale(1)&#39;;&#34;&gt;
         &lt;/a&gt;
         &lt;p style=&#34;margin: 5px 0 0; font-size: 16px; color: #555;&#34;&gt;Analysis of memory test performance.&lt;/p&gt;</description>
-      <content:encoded><![CDATA[<div align='center'>
-<img src="/images/paintbrush.png" style="width: 15px; height: auto">
-<font size=2>made with: <b>R</b> (ggplot), <b>python</b> (seaborn, matplotlib), <b>adobe illustrator</b></div>
-<h5>scientific research</h5>
+      <content:encoded><![CDATA[<div style="display: flex; justify-content: center; align-items: top;">
+<div class="inset-box">
+<div style="width:100%">
+made with: <b>R</b> <i>(ggplot)</i>, <b>python</b> <i>(seaborn, matplotlib)</i>, <b>illustrator</b>
+</div>
+</div>
+</div>
+<h5>scientific figures</h5>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px; width: 100%; max-width: 1500px; margin: 20px auto;">
+  gap: 40px; width: 100%; max-width: 1500px; margin: 10px auto;">
   <div style="text-align: left;">
         <a href="/images/viz/coviddiary_surveyvars.jpg" target="_blank">
           <img src="/images/viz/coviddiary_surveyvars.jpg" alt="Image 1"
@@ -579,20 +563,35 @@ $$</p>]]></content:encoded>
 </div>]]></content:encoded>
     </item>
     <item>
-      <title>research</title>
+      <title>Research</title>
       <link>http://localhost:4321/research/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>shaolong.chen@outlook.it (Shaolong Chen)</author>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>ccgasser@gmail.com (Camille Gasser)</author>
       <guid>http://localhost:4321/research/</guid>
-      <description></description>
-      <content:encoded><![CDATA[]]></content:encoded>
+      <description>&lt;br&gt;
+&lt;center&gt;(under construction)&lt;/center&gt;</description>
+      <content:encoded><![CDATA[<br>
+<center>(under construction)</center>]]></content:encoded>
     </item>
     <item>
-      <title>resume</title>
+      <title>Resume</title>
       <link>http://localhost:4321/resume/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>shaolong.chen@outlook.it (Shaolong Chen)</author>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>ccgasser@gmail.com (Camille Gasser)</author>
       <guid>http://localhost:4321/resume/</guid>
-      <description></description>
-      <content:encoded><![CDATA[]]></content:encoded>
+      <description>&lt;div align=&#34;center&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:4321/images/data_icon.png&#34; style=&#34;width: 15px; height: auto; border-radius: 0&#34;&gt; &lt;b&gt;professional&lt;/b&gt;&lt;/p&gt;
+&lt;iframe src=&#34;http://localhost:4321/docs/cg_resume.pdf#toolbar=0&#34; width=&#34;90%&#34; height=&#34;500&#34; style=&#34;border: 1px solid black&#34;&gt;&lt;/iframe&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:4321/images/academic_icon.png&#34; style=&#34;width: 15px; height: auto; border-radius: 0&#34;&gt; &lt;b&gt;academic&lt;/b&gt; (&lt;i&gt;curriculum vitae&lt;/i&gt;)&lt;/p&gt;
+&lt;iframe src=&#34;http://localhost:4321/docs/cg_cv.pdf#toolbar=0&#34; width=&#34;90%&#34; height=&#34;500&#34; style=&#34;border: 1px solid black&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;</description>
+      <content:encoded><![CDATA[<div align="center">
+<p><img src="/images/data_icon.png" style="width: 15px; height: auto; border-radius: 0"> <b>professional</b></p>
+<iframe src="/docs/cg_resume.pdf#toolbar=0" width="90%" height="500" style="border: 1px solid black"></iframe>
+<hr>
+<p><img src="/images/academic_icon.png" style="width: 15px; height: auto; border-radius: 0"> <b>academic</b> (<i>curriculum vitae</i>)</p>
+<iframe src="/docs/cg_cv.pdf#toolbar=0" width="90%" height="500" style="border: 1px solid black"></iframe>
+</div>
+]]></content:encoded>
     </item>
   </channel>
 </rss>

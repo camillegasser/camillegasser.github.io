@@ -5,7 +5,7 @@
     "Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica,
     "Helvetica Neue", sans-serif;
   --mono-font: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
-  --standard-border-radius: 5px;
+  --standard-border-radius: 0px;
 
   /* Default (light) theme */
   --bg: #fff;
@@ -18,7 +18,7 @@
   --accent-text: var(--bg);
   --code: #d81b60;
   --preformatted: #444;
-  --marked: #83c5be;
+  --marked: #97d8d2;
   --disabled: #efefef;
 }
 
@@ -109,8 +109,8 @@ main {
 }
 
 body > footer {
-  margin-top: 4rem;
-  padding: 2rem 1rem 1.5rem 1rem;
+  margin-top: 1.5rem;
+  padding: 1.5rem 1rem 1.5rem 1rem;
   color: var(--text-light);
   font-size: 0.9rem;
   text-align: center;
@@ -119,7 +119,7 @@ body > footer {
 
 /* Format headers */
 h1 {
-  font-size: 3rem;
+  font-size: 2.8rem;
 }
 
 h2 {
@@ -139,6 +139,8 @@ h4 {
 
 h5 {
   font-size: 1.15rem;
+  margin-top: 0rem;
+  margin-bottom: 0.5rem;
 }
 
 h6 {

@@ -1,15 +1,19 @@
 ---
-title: data visualization
-description: '& information design'
+title: Data Visualization
 ---
 
-<div align='center'>
-<img src="/images/paintbrush.png" style="width: 15px; height: auto">
-<font size=2>made with: <b>R</b> (ggplot), <b>python</b> (seaborn, matplotlib), <b>adobe illustrator</b></div>
-<h5>scientific research</h5>
+<div style="display: flex; justify-content: center; align-items: top;">
+<div class="inset-box">
+<div style="width:100%">
+made with: <b>R</b> <i>(ggplot)</i>, <b>python</b> <i>(seaborn, matplotlib)</i>, <b>illustrator</b>
+</div>
+</div>
+</div>
+
+<h5>scientific figures</h5>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px; width: 100%; max-width: 1500px; margin: 20px auto;">
+  gap: 40px; width: 100%; max-width: 1500px; margin: 10px auto;">
   <div style="text-align: left;">
         <a href="/images/viz/coviddiary_surveyvars.jpg" target="_blank">
           <img src="/images/viz/coviddiary_surveyvars.jpg" alt="Image 1"
@@ -82,4 +86,5 @@ description: '& information design'
         <p style="margin: 5px 0 0; font-size: 16px; color: #555;">Analysis of temporal correlations in fMRI data.</p>
         <p style="margin: 0px 0 0; font-size: 14px; color: #555;">Published in <a href="https://www.jneurosci.org/content/41/8/1738", target="_blank">this paper</a>.</p>
     </div>
+    
 </div>

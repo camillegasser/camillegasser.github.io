@@ -25,14 +25,14 @@ markup:
     startLevel: 2
 params:
   author:
-    email: shaolong.chen@outlook.it
-    name: Shaolong Chen
-  dateFormat: '2006-01-02'
-  description: Hugo Simple Demo
+    email: ccgasser@gmail.com
+    name: Camille Gasser
+  dateFormat: '2025-01-07'
+  description: Camille Gasser personal website
   favicon: images/favicon.png
   hideMadeWithLine: no
   hideRSSLink: yes
-  title: Hugo Simple
+  title: Camille Gasser
 menu:
   main:
     - name: home
