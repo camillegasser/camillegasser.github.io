@@ -1,6 +1,5 @@
 ---
 title: Camille Gasser, PhD
-description: data science ◦ quantitative research ◦ neuroscience
 ---
 
 <div style="display: flex; gap: 35px; margin-top: 20px">
@@ -13,9 +12,9 @@ description: data science ◦ quantitative research ◦ neuroscience
   <h5>Hi there!</h5>
   I'm a quantitative research scientist who uses data to make sense of human behavior. I have a broad skillset in experimentation, data analysis, and statistics, and I love using visual & verbal storytelling to share my findings with others.
   
-  I recently obtained my PhD in Cognitive Neuroscience from Columbia University, where I led a research program exploring how our past experience shapes the way we form new memories. Prior to that, I obtained my BA in Psychology from NYU.
+  I recently earned my PhD in Cognitive Neuroscience from Columbia University, where I led a research program exploring how our past experience shapes the way we form new memories. Prior to that, I obtained my BA in Psychology from NYU.
   
-  Check out my <a href="/research">research</a> or read my published work on <a href="https://scholar.google.com/citations?user=Oe-XxKsAAAAJ" target="_blank">Google Scholar</a>.
+  Check out my <a href="/research">research portfolio</a> or read my published work on <a href="https://scholar.google.com/citations?user=Oe-XxKsAAAAJ" target="_blank">Google Scholar</a>.
     </div>
   </div>
 </div>

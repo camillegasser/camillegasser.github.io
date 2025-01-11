@@ -1,7 +1,7 @@
 ---
 title: Data Visualization
 ---
-
+<!---
 <div style="display: flex; justify-content: center; align-items: top;">
 <div class="inset-box">
 <div style="width:100%">
@@ -9,11 +9,12 @@ made with: <b>R</b> <i>(ggplot)</i>, <b>python</b> <i>(seaborn, matplotlib)</i>,
 </div>
 </div>
 </div>
-
+-->
+<br>
 <h5>scientific figures</h5>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px; width: 100%; max-width: 1500px; margin: 10px auto;">
+  gap: 40px; width: 100%; max-width: 1500px; padding-top: 10px; margin: 10px auto;">
   <div style="text-align: left;">
         <a href="/images/viz/coviddiary_surveyvars.jpg" target="_blank">
           <img src="/images/viz/coviddiary_surveyvars.jpg" alt="Image 1"

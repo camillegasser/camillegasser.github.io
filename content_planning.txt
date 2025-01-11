@@ -1,0 +1,45 @@
+planning:
+
+RESEARCH PROJECTS
+
+- scaffold behavioral studies
+	set up motivation
+	link/embed interactive rshiny app
+	link to paper, osf, etc.
+SKILLS: R, online experimentation (prolific, gorilla)
+
+- endpoint
+	set up motivation
+	sliding scale sentiment analysis
+	recall semantic similarity
+SKILLS: python, qualtrics
+
+- covid diary
+	set up motivation
+	include detailed study timeline
+	show "novelty points" analysis
+	show "novelty penumbra" analysis
+SKILLS: R, qualtrics, google sheets
+
+- fMRI work (lump together...)
+	set up motivation: looking at the informational content of brain activity
+	temporal autocorrelation - way of assessing the granularity of a signal
+	scaffold imaging
+
+
+WRITING
+
+- scientific:
+	review paper
+	empirical studies
+
+- public audience:
+	scisub
+
+- literary essays
+	writing the essay
+	
+
+
+	
+	
