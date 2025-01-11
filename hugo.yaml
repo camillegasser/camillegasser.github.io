@@ -1,7 +1,7 @@
 baseURL: https://camillegasser.github.io/
 theme: hugo-simple
 languageCode: en
-title: camille gasser
+title: Camille Gasser
 copyright: © 2024 Camille Gasser
 enableRobotsTXT: yes
 capitalizeListTitles: no
