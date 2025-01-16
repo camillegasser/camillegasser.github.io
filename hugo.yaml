@@ -44,7 +44,7 @@ menu:
     - name: data viz
       pageRef: /viz
       weight: 20
-    - name: resume & skills
+    - name: resume
       pageRef: /resume
       weight: 30
 pagination:

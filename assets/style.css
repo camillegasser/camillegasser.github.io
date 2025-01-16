@@ -112,10 +112,28 @@ div.highlight pre span {
   }
 
   .project-box:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
   
   .project-box img {
     border-radius: 0;
     margin-bottom: 10px;
+  }
+  
+  .emphasize {
+    padding: 10px;
+    font-size: 1em;
+    background: var(--accent-bg);
+    border-color: var(--accent);
+    border-style: dashed;
+    border-width: 3px;
+    border-radius: 0px;
+    color: var(--text);
+    display: flex;
+    margin: 30px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 90%;
   }

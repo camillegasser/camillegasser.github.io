@@ -1,5 +1,5 @@
 ---
-title: Resume & Skills
+title: Resume
 ---
 
 <div align="center">

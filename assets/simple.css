@@ -149,6 +149,16 @@ h6 {
   font-size: 0.96rem;
 }
 
+projtitle {
+  font-weight: bold;
+  font-size: 1.8rem;
+  margin-top: 0.5rem
+  margin-bottom: 0rem;
+  margin-right: 0rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 4px solid var(--accent);
+}
+
 p {
   margin: 1rem 0;
 }
@@ -590,8 +600,8 @@ figcaption {
 blockquote {
   margin-inline-start: 2rem;
   margin-inline-end: 0;
-  margin-block: 2rem;
-  padding: 0.4rem 0.8rem;
+  margin-block: 1.5rem;
+  padding: 0rem 0.8rem;
   border-inline-start: 0.35rem solid var(--accent);
   color: var(--text-light);
   font-style: italic;
@@ -618,11 +628,12 @@ samp {
 }
 
 kbd {
+  font-size: 0.85rem;
   color: var(--preformatted);
-  border: 1px solid var(--preformatted);
-  border-bottom: 3px solid var(--preformatted);
+  border: 0px solid var(--preformatted);
+  border-bottom: 0px solid var(--preformatted);
   border-radius: var(--standard-border-radius);
-  padding: 0.1rem 0.4rem;
+  padding: 0.2rem;
 }
 
 pre {
