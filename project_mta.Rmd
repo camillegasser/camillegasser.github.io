@@ -1,0 +1,220 @@
+---
+title: ""
+output:
+  html_document:
+    code_folding: hide
+    df_print: paged
+---
+
+```{r setup, include=F}
+knitr::opts_chunk$set(echo = T, cache = T, message = F, warning = F, fig.align = 'center')
+```
+
+<projtitle>The decline & recovery of MTA ridership during COVID-19</projtitle>
+
+<b>data source</b>: Metropolitan Transportation Authority (via <a href="https://mavenanalytics.io/data-playground">Maven Analytics</a>)
+<br>
+<b>tools</b>: R (ggplot, ggiraph)
+
+> This page includes all code used to manipulate, analyze, and visualize this dataset.
+
+#### Introduction
+
+The onset of COVID-19 uprooted almost every aspect of everyday life. As lockdown orders took effect, those who could stayed at home rather than venture out for work or fun. In New York City, this manifested as a dramatic reduction in usage of all MTA services — from the subway to buses to the bridges and tunnels that connect each borough.
+
+**The goal of this data exploration is to understand how MTA ridership was impacted by COVID-19 — and how it has since recovered.**
+
+First, let's load in our data.
+
+<details>
+<summary>Set up workspace & load data</summary>
+```{r, results=F}
+
+library(tidyverse)
+library(lubridate)
+library(car)
+library(cowplot)
+library(ggiraph)
+library(DT)
+library(kableExtra)
+
+plot_theme <- theme_light() +
+  theme(panel.grid = element_blank(),
+        strip.background = element_rect(fill = 'grey30'),
+        panel.spacing = unit(1, 'lines'))
+theme_set(plot_theme)
+
+### load data
+mta_data <- read.csv('datasets/MTA_Daily_Ridership.csv', stringsAsFactors = F)
+mta_dict <- read.csv('datasets/MTA_data_dictionary.csv', stringsAsFactors = F)
+
+### rename columns & fix date formatting
+mta_data <- mta_data %>%
+  mutate(Date = as.Date(Date))
+colnames(mta_data) <- c('date', 'Subway_current', 'Subway_pre', 'Bus_current', 'Bus_pre', 'LIRR_current', 'LIRR_pre',
+                        'MetroNorth_current', 'MetroNorth_pre', 'AccessARide_current', 'AccessARide_pre',
+                        'BridgesAndTunnels_current', 'BridgesAndTunnels_pre', 'SIRailway_current', 'SIRailway_pre')
+
+```
+</details>
+
+The dataset we start with 
+
+```{r echo = F}
+
+kable(head(mta_data), format = 'html') %>%
+  kable_styling(full_width = FALSE, font_size = 12, htmltable_class = 'no-border') %>%
+  scroll_box(width = '100%', height = 'auto', extra_css = 'border: none;') %>%
+  column_spec(1, width = '100px')
+
+```
+<div align="center"><font size=2><b>Original Data</b> (scroll left/right to see full table)</font></div>
+
+Then we have to probably do something else.
+
+<details>
+<summary>Transform data</summary>
+```{r}
+
+# to get the actual ridership pre-pandemic:
+#   current ridership = pre ridership * pre %
+#   pre ridership = current / pre %
+
+# when pre % = 0, it's impossible to estimate original ridership
+# this happens ~50 times with the SI railway, but nowhere else
+# just removing these datapoints for now
+
+# sum(mta_data$SIRailway_pre == 0)
+
+mta_data_long <- mta_data %>%
+  pivot_longer(cols = c(ends_with('current'), ends_with('pre')),
+               names_to = c('service', '.value'),
+               names_pattern = '(.*?)_(.*)') %>%
+  mutate(pre_estimate = ifelse(pre != 0, current / (pre / 100), NaN)) %>%
+  pivot_longer(cols = c('current', 'pre_estimate'), names_to = 'timepoint', values_to = 'traffic') %>%
+  rename(pre_percentage = pre) %>%
+  mutate(year = year(date), .after = 'date') %>%
+  mutate(month = month(date), .after = 'year') %>%
+  mutate(day = day(date), .after = 'month') %>%
+  group_by(service) %>%
+  ungroup()
+
+# pull out proportion of traffic pre-pandemic
+service_pre <- mta_data_long %>%
+  filter(timepoint == 'pre_estimate') %>%
+  group_by(service) %>%
+  summarise(service_traffic = sum(traffic, na.rm = T)) %>%
+  ungroup() %>%
+  mutate(total_traffic = sum(service_traffic, na.rm = T),
+         service_prop = service_traffic / total_traffic)
+
+# look at proportion of traffic by service by post-pandemic year
+service_year <- mta_data_long %>%
+  filter(timepoint == 'current') %>%
+  group_by(year, service) %>%
+  summarise(service_traffic = sum(traffic, na.rm = T)) %>%
+  ungroup() %>%
+  group_by(year) %>%
+  mutate(total_traffic = sum(service_traffic, na.rm = T),
+         service_prop = service_traffic / total_traffic)
+
+# combine
+serivce_year_wpre <- service_pre %>%
+  mutate(year = 2026) %>% # setting pre-pandemic estimates as 2026 for plotting purposes
+  rbind(service_year) %>%
+  mutate(time_bin = ifelse(year == 'pre-pandemic', 'pre', 'curr'))
+
+# set factor level order
+mta_data_long$service <- factor(mta_data_long$service, levels = c('Subway', 'Bus', 'BridgesAndTunnels', 'LIRR',
+                                                                  'MetroNorth', 'AccessARide', 'SIRailway'))
+
+```
+</details>
+
+```{r echo = F}
+
+mta_data_snippet <- mta_data_long %>%
+  arrange(timepoint, service, date, year) %>%
+  head(6)
+
+kable(mta_data_snippet, format = 'html') %>%
+  kable_styling(full_width = FALSE, font_size = 12, htmltable_class = 'no-border') %>%
+  scroll_box(width = '100%', height = 'auto', extra_css = 'border: none;') %>%
+  column_spec(1, width = '100px')
+
+```
+
+<div align="center"><font size=2><b>Reformatted Data</b></font></div>
+
+What was the share of traffic by service before the pandemic? Did it change?
+
+<details>
+<summary>Get traffic estimates by year</summary>
+```{r}
+
+# look at proportion of traffic pre-pandemic
+service_pre <- mta_data_long %>%
+  filter(timepoint == 'pre_estimate') %>%
+  group_by(service) %>%
+  summarise(service_traffic = sum(traffic, na.rm = T)) %>%
+  ungroup() %>%
+  mutate(total_traffic = sum(service_traffic, na.rm = T),
+         service_prop = service_traffic / total_traffic)
+
+# look at proportion of traffic by service by post-pandemic year
+service_year <- mta_data_long %>%
+  filter(timepoint == 'current') %>%
+  group_by(year, service) %>%
+  summarise(service_traffic = sum(traffic, na.rm = T)) %>%
+  ungroup() %>%
+  group_by(year) %>%
+  mutate(total_traffic = sum(service_traffic, na.rm = T),
+         service_prop = service_traffic / total_traffic)
+
+# combine
+serivce_year_wpre <- service_pre %>%
+  mutate(year = 2026) %>% # setting pre-pandemic estimates as 2026 for plotting purposes
+  rbind(service_year) %>%
+  mutate(time_bin = ifelse(year == 'pre-pandemic', 'pre', 'curr'))
+
+
+```
+</details>
+
+Then plot the data!
+
+```{r}
+
+g <- ggplot(data = serivce_year_wpre, aes(x = year, y = service_prop, fill = service, alpha = time_bin,
+                                          tooltip = sprintf('%s: %.2f%%', service, service_prop * 100))) +
+  geom_bar_interactive(stat = 'summary', width = 0.8) +
+  theme(legend.position = 'right') +
+  scale_fill_viridis_d(option = 'inferno', direction = -1, begin = 0.1, end = 0.9) +
+  scale_alpha_discrete(range = c(1, 0.6), guide = 'none') +
+  labs(x = 'year', y = 'proportion of total traffic',
+       caption = 'hover over the plot to see percentages') +
+  scale_x_continuous(breaks = c(2020, 2021, 2022, 2023, 2024, 2026),
+                     labels = c('2020', '2021', '2022', '2023', '2024', 'pre-pandemic')) +
+  plot_theme +
+  theme(text = element_text(size = 14),
+        plot.caption = element_text(hjust = 0.5, size = 11, face = 'italic'))
+
+girafe(ggobj = g, options = list(opts_sizing(rescale = T, width = .7)))
+
+```
+
+```{r, fig.height = 6, fig.width = 10}
+
+ggplot(mta_data_long, aes(x = date, y = pre_percentage, color = service, fill = service)) +
+  geom_line(color = 'grey80', linewidth = 0.2) +
+  geom_smooth(method = 'lm', linewidth = 2, alpha = 1) +
+  geom_hline(yintercept = 100, linetype = 'dashed', color = 'tomato2') +
+  facet_wrap(~service, nrow = 2) +
+  scale_color_viridis_d(option = 'inferno', direction = -1, begin = 0.1, end = 0.9) +
+  scale_fill_viridis_d(option = 'inferno', direction = -1, begin = 0.1, end = 0.9) +
+  labs(x = 'date', y = 'percentage of pre-pandemic traffic') +
+  plot_theme +
+  theme(text = element_text(size = 14), legend.position = 'top') +
+  guides(color = guide_legend(nrow = 1))
+
+```

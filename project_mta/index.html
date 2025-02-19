@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="/images/favicon.png" />
+
+<title>Camille Gasser</title>
+<meta
+  name="title"
+  content="Camille Gasser"
+/>
+<meta
+  name="description"
+  content="
+
+
+
+
+
+
+
+
+
+
+
+The decline &amp; recovery of MTA ridership during COVID-19
+data source: Metropolitan Transportation Authority (via Maven Analytics)
+
+tools: R (ggplot, ggiraph)
+
+This page includes all code used to manipulate, analyze, and visualize this dataset.
+
+Introduction
+The onset of COVID-19 uprooted almost every aspect of everyday life. As lockdown orders took effect, those who could stayed at home rather than venture out for work or fun. In New York City, this manifested as a dramatic reduction in usage of all MTA services — from the subway to buses to the bridges and tunnels that connect each borough."
+/>
+<meta
+  name="keywords"
+  content=""
+/>
+
+  <meta name="author" content="Camille Gasser" />
+
+
+
+
+<meta property="og:url" content="https://camillegasser.github.io/project_mta/">
+  <meta property="og:site_name" content="Camille Gasser">
+  <meta property="og:title" content="Camille Gasser">
+  <meta property="og:description" content="The decline &amp; recovery of MTA ridership during COVID-19
+data source: Metropolitan Transportation Authority (via Maven Analytics) tools: R (ggplot, ggiraph)
+This page includes all code used to manipulate, analyze, and visualize this dataset.
+Introduction The onset of COVID-19 uprooted almost every aspect of everyday life. As lockdown orders took effect, those who could stayed at home rather than venture out for work or fun. In New York City, this manifested as a dramatic reduction in usage of all MTA services — from the subway to buses to the bridges and tunnels that connect each borough.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Camille Gasser">
+  <meta name="twitter:description" content="The decline &amp; recovery of MTA ridership during COVID-19
+data source: Metropolitan Transportation Authority (via Maven Analytics) tools: R (ggplot, ggiraph)
+This page includes all code used to manipulate, analyze, and visualize this dataset.
+Introduction The onset of COVID-19 uprooted almost every aspect of everyday life. As lockdown orders took effect, those who could stayed at home rather than venture out for work or fun. In New York City, this manifested as a dramatic reduction in usage of all MTA services — from the subway to buses to the bridges and tunnels that connect each borough.">
+
+
+
+
+
+  <meta itemprop="name" content="Camille Gasser">
+  <meta itemprop="description" content="The decline &amp; recovery of MTA ridership during COVID-19
+data source: Metropolitan Transportation Authority (via Maven Analytics) tools: R (ggplot, ggiraph)
+This page includes all code used to manipulate, analyze, and visualize this dataset.
+Introduction The onset of COVID-19 uprooted almost every aspect of everyday life. As lockdown orders took effect, those who could stayed at home rather than venture out for work or fun. In New York City, this manifested as a dramatic reduction in usage of all MTA services — from the subway to buses to the bridges and tunnels that connect each borough.">
+  <meta itemprop="wordCount" content="1077">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+    
+    
+    
+    <link href="/bundle.min.css" rel="stylesheet" />
+
+    
+
+    </head>
+
+  <body>
+    <header>
+      <nav>
+  <a
+    href="/"
+    
+    >home</a
+  >
+
+  <a
+    href="/research/"
+    
+    >research</a
+  >
+
+  <a
+    href="/viz/"
+    
+    >data viz</a
+  >
+
+  <a
+    href="/resume/"
+    
+    >resume &amp; skills</a
+  >
+
+
+</nav>
+<h2></h2>
+
+
+    </header>
+    <main>
+      
+  
+  
+  <content>
+    <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/d3-bundle/d3-bundle.min.js"></script>
+<script src="/rmarkdown-libs/d3-lasso/d3-lasso.min.js"></script>
+<script src="/rmarkdown-libs/save-svg-as-png/save-svg-as-png.min.js"></script>
+<script src="/rmarkdown-libs/flatbush/flatbush.min.js"></script>
+<link href="/rmarkdown-libs/ggiraphjs/ggiraphjs.min.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/ggiraphjs/ggiraphjs.min.js"></script>
+<script src="/rmarkdown-libs/girafe-binding/girafe.js"></script>
+<p><projtitle>The decline &amp; recovery of MTA ridership during COVID-19</projtitle></p>
+<p><b>data source</b>: Metropolitan Transportation Authority (via <a href="https://mavenanalytics.io/data-playground">Maven Analytics</a>)
+<br>
+<b>tools</b>: R (ggplot, ggiraph)</p>
+<blockquote>
+<p>This page includes all code used to manipulate, analyze, and visualize this dataset.</p>
+</blockquote>
+<h4 id="introduction">Introduction</h4>
+<p>The onset of COVID-19 uprooted almost every aspect of everyday life. As lockdown orders took effect, those who could stayed at home rather than venture out for work or fun. In New York City, this manifested as a dramatic reduction in usage of all MTA services — from the subway to buses to the bridges and tunnels that connect each borough.</p>
+<p><strong>The goal of this data exploration is to understand how MTA ridership was impacted by COVID-19 — and how it has since recovered.</strong></p>
+<p>First, let’s load in our data.</p>
+<details>
+<summary>
+Set up workspace & load data
+</summary>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" style="color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 1</span><span><span style="color:#89b4fa">library</span>(tidyverse)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 2</span><span><span style="color:#89b4fa">library</span>(lubridate)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 3</span><span><span style="color:#89b4fa">library</span>(car)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 4</span><span><span style="color:#89b4fa">library</span>(cowplot)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 5</span><span><span style="color:#89b4fa">library</span>(ggiraph)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 6</span><span><span style="color:#89b4fa">library</span>(DT)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 7</span><span><span style="color:#89b4fa">library</span>(kableExtra)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 8</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 9</span><span>plot_theme <span style="color:#89dceb;font-weight:bold">&lt;-</span> <span style="color:#89b4fa">theme_light</span>() <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">10</span><span>  <span style="color:#89b4fa">theme</span>(panel.grid <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">element_blank</span>(),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">11</span><span>        strip.background <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">element_rect</span>(fill <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;grey30&#39;</span>),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">12</span><span>        panel.spacing <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">unit</span>(<span style="color:#fab387">1</span>, <span style="color:#a6e3a1">&#39;lines&#39;</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">13</span><span><span style="color:#89b4fa">theme_set</span>(plot_theme)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">14</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">15</span><span><span style="color:#6c7086;font-style:italic">### load data</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">16</span><span>mta_data <span style="color:#89dceb;font-weight:bold">&lt;-</span> <span style="color:#89b4fa">read.csv</span>(<span style="color:#a6e3a1">&#39;datasets/MTA_Daily_Ridership.csv&#39;</span>, stringsAsFactors <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89dceb">F</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">17</span><span>mta_dict <span style="color:#89dceb;font-weight:bold">&lt;-</span> <span style="color:#89b4fa">read.csv</span>(<span style="color:#a6e3a1">&#39;datasets/MTA_data_dictionary.csv&#39;</span>, stringsAsFactors <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89dceb">F</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">18</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">19</span><span><span style="color:#6c7086;font-style:italic">### rename columns &amp; fix date formatting</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">20</span><span>mta_data <span style="color:#89dceb;font-weight:bold">&lt;-</span> mta_data <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">21</span><span>  <span style="color:#89b4fa">mutate</span>(Date <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">as.Date</span>(Date))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">22</span><span><span style="color:#89b4fa">colnames</span>(mta_data) <span style="color:#89dceb;font-weight:bold">&lt;-</span> <span style="color:#89b4fa">c</span>(<span style="color:#a6e3a1">&#39;date&#39;</span>, <span style="color:#a6e3a1">&#39;Subway_current&#39;</span>, <span style="color:#a6e3a1">&#39;Subway_pre&#39;</span>, <span style="color:#a6e3a1">&#39;Bus_current&#39;</span>, <span style="color:#a6e3a1">&#39;Bus_pre&#39;</span>, <span style="color:#a6e3a1">&#39;LIRR_current&#39;</span>, <span style="color:#a6e3a1">&#39;LIRR_pre&#39;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">23</span><span>                        <span style="color:#a6e3a1">&#39;MetroNorth_current&#39;</span>, <span style="color:#a6e3a1">&#39;MetroNorth_pre&#39;</span>, <span style="color:#a6e3a1">&#39;AccessARide_current&#39;</span>, <span style="color:#a6e3a1">&#39;AccessARide_pre&#39;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">24</span><span>                        <span style="color:#a6e3a1">&#39;BridgesAndTunnels_current&#39;</span>, <span style="color:#a6e3a1">&#39;BridgesAndTunnels_pre&#39;</span>, <span style="color:#a6e3a1">&#39;SIRailway_current&#39;</span>, <span style="color:#a6e3a1">&#39;SIRailway_pre&#39;</span>)</span></span></code></pre></div>
+</details>
+<p>The dataset we start with</p>
+<div style="border: 1px solid #ddd; padding: 0px; border: none;overflow-y: scroll; height:auto; overflow-x: scroll; width:100%; ">
+<table class=" no-border" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+date
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Subway_current
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Subway_pre
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Bus_current
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Bus_pre
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+LIRR_current
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+LIRR_pre
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+MetroNorth_current
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+MetroNorth_pre
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+AccessARide_current
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+AccessARide_pre
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+BridgesAndTunnels_current
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+BridgesAndTunnels_pre
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+SIRailway_current
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+SIRailway_pre
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-01
+</td>
+<td style="text-align:right;">
+2212965
+</td>
+<td style="text-align:right;">
+97
+</td>
+<td style="text-align:right;">
+984908
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+86790
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+55825
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+19922
+</td>
+<td style="text-align:right;">
+113
+</td>
+<td style="text-align:right;">
+786960
+</td>
+<td style="text-align:right;">
+98
+</td>
+<td style="text-align:right;">
+1636
+</td>
+<td style="text-align:right;">
+52
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-02
+</td>
+<td style="text-align:right;">
+5329915
+</td>
+<td style="text-align:right;">
+96
+</td>
+<td style="text-align:right;">
+2209066
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+321569
+</td>
+<td style="text-align:right;">
+103
+</td>
+<td style="text-align:right;">
+180701
+</td>
+<td style="text-align:right;">
+66
+</td>
+<td style="text-align:right;">
+30338
+</td>
+<td style="text-align:right;">
+102
+</td>
+<td style="text-align:right;">
+874619
+</td>
+<td style="text-align:right;">
+95
+</td>
+<td style="text-align:right;">
+17140
+</td>
+<td style="text-align:right;">
+107
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-03
+</td>
+<td style="text-align:right;">
+5481103
+</td>
+<td style="text-align:right;">
+98
+</td>
+<td style="text-align:right;">
+2228608
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+319727
+</td>
+<td style="text-align:right;">
+102
+</td>
+<td style="text-align:right;">
+190648
+</td>
+<td style="text-align:right;">
+69
+</td>
+<td style="text-align:right;">
+32767
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;">
+882175
+</td>
+<td style="text-align:right;">
+96
+</td>
+<td style="text-align:right;">
+17453
+</td>
+<td style="text-align:right;">
+109
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-04
+</td>
+<td style="text-align:right;">
+5498809
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+2177165
+</td>
+<td style="text-align:right;">
+97
+</td>
+<td style="text-align:right;">
+311662
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+192689
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+34297
+</td>
+<td style="text-align:right;">
+115
+</td>
+<td style="text-align:right;">
+905558
+</td>
+<td style="text-align:right;">
+98
+</td>
+<td style="text-align:right;">
+17136
+</td>
+<td style="text-align:right;">
+107
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-05
+</td>
+<td style="text-align:right;">
+5496453
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+2244515
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+307597
+</td>
+<td style="text-align:right;">
+98
+</td>
+<td style="text-align:right;">
+194386
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+33209
+</td>
+<td style="text-align:right;">
+112
+</td>
+<td style="text-align:right;">
+929298
+</td>
+<td style="text-align:right;">
+101
+</td>
+<td style="text-align:right;">
+17203
+</td>
+<td style="text-align:right;">
+108
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-06
+</td>
+<td style="text-align:right;">
+5189447
+</td>
+<td style="text-align:right;">
+93
+</td>
+<td style="text-align:right;">
+2066743
+</td>
+<td style="text-align:right;">
+92
+</td>
+<td style="text-align:right;">
+289171
+</td>
+<td style="text-align:right;">
+92
+</td>
+<td style="text-align:right;">
+205056
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+30970
+</td>
+<td style="text-align:right;">
+104
+</td>
+<td style="text-align:right;">
+945408
+</td>
+<td style="text-align:right;">
+103
+</td>
+<td style="text-align:right;">
+15285
+</td>
+<td style="text-align:right;">
+96
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div align="center">
+<p><font size=2><b>Original Data</b> (scroll left/right to see full table)</font></p>
+</div>
+<p>Then we have to probably do something else.</p>
+<details>
+<summary>
+Transform data
+</summary>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" style="color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 1</span><span><span style="color:#6c7086;font-style:italic"># to get the actual ridership pre-pandemic:</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 2</span><span><span style="color:#6c7086;font-style:italic">#   current ridership = pre ridership * pre %</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 3</span><span><span style="color:#6c7086;font-style:italic">#   pre ridership = current / pre %</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 5</span><span><span style="color:#6c7086;font-style:italic"># when pre % = 0, it&#39;s impossible to estimate original ridership</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 6</span><span><span style="color:#6c7086;font-style:italic"># this happens ~50 times with the SI railway, but nowhere else</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 7</span><span><span style="color:#6c7086;font-style:italic"># just removing these datapoints for now</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 8</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 9</span><span><span style="color:#6c7086;font-style:italic"># sum(mta_data$SIRailway_pre == 0)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">10</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">11</span><span>mta_data_long <span style="color:#89dceb;font-weight:bold">&lt;-</span> mta_data <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">12</span><span>  <span style="color:#89b4fa">pivot_longer</span>(cols <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">c</span>(<span style="color:#89b4fa">ends_with</span>(<span style="color:#a6e3a1">&#39;current&#39;</span>), <span style="color:#89b4fa">ends_with</span>(<span style="color:#a6e3a1">&#39;pre&#39;</span>)),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">13</span><span>               names_to <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">c</span>(<span style="color:#a6e3a1">&#39;service&#39;</span>, <span style="color:#a6e3a1">&#39;.value&#39;</span>),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">14</span><span>               names_pattern <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;(.*?)_(.*)&#39;</span>) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">15</span><span>  <span style="color:#89b4fa">mutate</span>(pre_estimate <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">ifelse</span>(pre <span style="color:#89dceb;font-weight:bold">!=</span> <span style="color:#fab387">0</span>, current <span style="color:#89dceb;font-weight:bold">/</span> (pre <span style="color:#89dceb;font-weight:bold">/</span> <span style="color:#fab387">100</span>), <span style="color:#fab387">NaN</span>)) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">16</span><span>  <span style="color:#89b4fa">pivot_longer</span>(cols <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">c</span>(<span style="color:#a6e3a1">&#39;current&#39;</span>, <span style="color:#a6e3a1">&#39;pre_estimate&#39;</span>), names_to <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;timepoint&#39;</span>, values_to <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;traffic&#39;</span>) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">17</span><span>  <span style="color:#89b4fa">rename</span>(pre_percentage <span style="color:#89dceb;font-weight:bold">=</span> pre) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">18</span><span>  <span style="color:#89b4fa">mutate</span>(year <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">year</span>(date), .after <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;date&#39;</span>) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">19</span><span>  <span style="color:#89b4fa">mutate</span>(month <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">month</span>(date), .after <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;year&#39;</span>) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">20</span><span>  <span style="color:#89b4fa">mutate</span>(day <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">day</span>(date), .after <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;month&#39;</span>) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">21</span><span>  <span style="color:#89b4fa">group_by</span>(service) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">22</span><span>  <span style="color:#89b4fa">ungroup</span>()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">23</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">24</span><span><span style="color:#6c7086;font-style:italic"># pull out proportion of traffic pre-pandemic</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">25</span><span>service_pre <span style="color:#89dceb;font-weight:bold">&lt;-</span> mta_data_long <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">26</span><span>  <span style="color:#89b4fa">filter</span>(timepoint <span style="color:#89dceb;font-weight:bold">==</span> <span style="color:#a6e3a1">&#39;pre_estimate&#39;</span>) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">27</span><span>  <span style="color:#89b4fa">group_by</span>(service) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">28</span><span>  <span style="color:#89b4fa">summarise</span>(service_traffic <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">sum</span>(traffic, na.rm <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89dceb">T</span>)) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">29</span><span>  <span style="color:#89b4fa">ungroup</span>() <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">30</span><span>  <span style="color:#89b4fa">mutate</span>(total_traffic <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">sum</span>(service_traffic, na.rm <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89dceb">T</span>),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">31</span><span>         service_prop <span style="color:#89dceb;font-weight:bold">=</span> service_traffic <span style="color:#89dceb;font-weight:bold">/</span> total_traffic)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">32</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">33</span><span><span style="color:#6c7086;font-style:italic"># look at proportion of traffic by service by post-pandemic year</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">34</span><span>service_year <span style="color:#89dceb;font-weight:bold">&lt;-</span> mta_data_long <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">35</span><span>  <span style="color:#89b4fa">filter</span>(timepoint <span style="color:#89dceb;font-weight:bold">==</span> <span style="color:#a6e3a1">&#39;current&#39;</span>) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">36</span><span>  <span style="color:#89b4fa">group_by</span>(year, service) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">37</span><span>  <span style="color:#89b4fa">summarise</span>(service_traffic <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">sum</span>(traffic, na.rm <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89dceb">T</span>)) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">38</span><span>  <span style="color:#89b4fa">ungroup</span>() <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">39</span><span>  <span style="color:#89b4fa">group_by</span>(year) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">40</span><span>  <span style="color:#89b4fa">mutate</span>(total_traffic <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">sum</span>(service_traffic, na.rm <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89dceb">T</span>),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">41</span><span>         service_prop <span style="color:#89dceb;font-weight:bold">=</span> service_traffic <span style="color:#89dceb;font-weight:bold">/</span> total_traffic)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">42</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">43</span><span><span style="color:#6c7086;font-style:italic"># combine</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">44</span><span>serivce_year_wpre <span style="color:#89dceb;font-weight:bold">&lt;-</span> service_pre <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">45</span><span>  <span style="color:#89b4fa">mutate</span>(year <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">2026</span>) <span style="color:#89dceb;font-weight:bold">%&gt;%</span> <span style="color:#6c7086;font-style:italic"># setting pre-pandemic estimates as 2026 for plotting purposes</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">46</span><span>  <span style="color:#89b4fa">rbind</span>(service_year) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">47</span><span>  <span style="color:#89b4fa">mutate</span>(time_bin <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">ifelse</span>(year <span style="color:#89dceb;font-weight:bold">==</span> <span style="color:#a6e3a1">&#39;pre-pandemic&#39;</span>, <span style="color:#a6e3a1">&#39;pre&#39;</span>, <span style="color:#a6e3a1">&#39;curr&#39;</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">48</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">49</span><span><span style="color:#6c7086;font-style:italic"># set factor level order</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">50</span><span>mta_data_long<span style="color:#89dceb;font-weight:bold">$</span>service <span style="color:#89dceb;font-weight:bold">&lt;-</span> <span style="color:#89b4fa">factor</span>(mta_data_long<span style="color:#89dceb;font-weight:bold">$</span>service, levels <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">c</span>(<span style="color:#a6e3a1">&#39;Subway&#39;</span>, <span style="color:#a6e3a1">&#39;Bus&#39;</span>, <span style="color:#a6e3a1">&#39;BridgesAndTunnels&#39;</span>, <span style="color:#a6e3a1">&#39;LIRR&#39;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">51</span><span>                                                                  <span style="color:#a6e3a1">&#39;MetroNorth&#39;</span>, <span style="color:#a6e3a1">&#39;AccessARide&#39;</span>, <span style="color:#a6e3a1">&#39;SIRailway&#39;</span>))</span></span></code></pre></div>
+</details>
+<div style="border: 1px solid #ddd; padding: 0px; border: none;overflow-y: scroll; height:auto; overflow-x: scroll; width:100%; ">
+<table class=" no-border" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+date
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+year
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+month
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+day
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+service
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+pre_percentage
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+timepoint
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+traffic
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-01
+</td>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Subway
+</td>
+<td style="text-align:right;">
+97
+</td>
+<td style="text-align:left;">
+current
+</td>
+<td style="text-align:right;">
+2212965
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-02
+</td>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Subway
+</td>
+<td style="text-align:right;">
+96
+</td>
+<td style="text-align:left;">
+current
+</td>
+<td style="text-align:right;">
+5329915
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-03
+</td>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Subway
+</td>
+<td style="text-align:right;">
+98
+</td>
+<td style="text-align:left;">
+current
+</td>
+<td style="text-align:right;">
+5481103
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-04
+</td>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+Subway
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:left;">
+current
+</td>
+<td style="text-align:right;">
+5498809
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-05
+</td>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+Subway
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:left;">
+current
+</td>
+<td style="text-align:right;">
+5496453
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 100px; ">
+2020-03-06
+</td>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+Subway
+</td>
+<td style="text-align:right;">
+93
+</td>
+<td style="text-align:left;">
+current
+</td>
+<td style="text-align:right;">
+5189447
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div align="center">
+<p><font size=2><b>Reformatted Data</b></font></p>
+</div>
+<p>What was the share of traffic by service before the pandemic? Did it change?</p>
+<details>
+<summary>
+Get traffic estimates by year
+</summary>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" style="color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 1</span><span><span style="color:#6c7086;font-style:italic"># look at proportion of traffic pre-pandemic</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 2</span><span>service_pre <span style="color:#89dceb;font-weight:bold">&lt;-</span> mta_data_long <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 3</span><span>  <span style="color:#89b4fa">filter</span>(timepoint <span style="color:#89dceb;font-weight:bold">==</span> <span style="color:#a6e3a1">&#39;pre_estimate&#39;</span>) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 4</span><span>  <span style="color:#89b4fa">group_by</span>(service) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 5</span><span>  <span style="color:#89b4fa">summarise</span>(service_traffic <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">sum</span>(traffic, na.rm <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89dceb">T</span>)) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 6</span><span>  <span style="color:#89b4fa">ungroup</span>() <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 7</span><span>  <span style="color:#89b4fa">mutate</span>(total_traffic <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">sum</span>(service_traffic, na.rm <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89dceb">T</span>),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 8</span><span>         service_prop <span style="color:#89dceb;font-weight:bold">=</span> service_traffic <span style="color:#89dceb;font-weight:bold">/</span> total_traffic)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">10</span><span><span style="color:#6c7086;font-style:italic"># look at proportion of traffic by service by post-pandemic year</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">11</span><span>service_year <span style="color:#89dceb;font-weight:bold">&lt;-</span> mta_data_long <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">12</span><span>  <span style="color:#89b4fa">filter</span>(timepoint <span style="color:#89dceb;font-weight:bold">==</span> <span style="color:#a6e3a1">&#39;current&#39;</span>) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">13</span><span>  <span style="color:#89b4fa">group_by</span>(year, service) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">14</span><span>  <span style="color:#89b4fa">summarise</span>(service_traffic <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">sum</span>(traffic, na.rm <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89dceb">T</span>)) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">15</span><span>  <span style="color:#89b4fa">ungroup</span>() <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">16</span><span>  <span style="color:#89b4fa">group_by</span>(year) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">17</span><span>  <span style="color:#89b4fa">mutate</span>(total_traffic <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">sum</span>(service_traffic, na.rm <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89dceb">T</span>),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">18</span><span>         service_prop <span style="color:#89dceb;font-weight:bold">=</span> service_traffic <span style="color:#89dceb;font-weight:bold">/</span> total_traffic)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">19</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">20</span><span><span style="color:#6c7086;font-style:italic"># combine</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">21</span><span>serivce_year_wpre <span style="color:#89dceb;font-weight:bold">&lt;-</span> service_pre <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">22</span><span>  <span style="color:#89b4fa">mutate</span>(year <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">2026</span>) <span style="color:#89dceb;font-weight:bold">%&gt;%</span> <span style="color:#6c7086;font-style:italic"># setting pre-pandemic estimates as 2026 for plotting purposes</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">23</span><span>  <span style="color:#89b4fa">rbind</span>(service_year) <span style="color:#89dceb;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">24</span><span>  <span style="color:#89b4fa">mutate</span>(time_bin <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">ifelse</span>(year <span style="color:#89dceb;font-weight:bold">==</span> <span style="color:#a6e3a1">&#39;pre-pandemic&#39;</span>, <span style="color:#a6e3a1">&#39;pre&#39;</span>, <span style="color:#a6e3a1">&#39;curr&#39;</span>))</span></span></code></pre></div>
+</details>
+<p>Then plot the data!</p>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" style="color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 1</span><span>g <span style="color:#89dceb;font-weight:bold">&lt;-</span> <span style="color:#89b4fa">ggplot</span>(data <span style="color:#89dceb;font-weight:bold">=</span> serivce_year_wpre, <span style="color:#89b4fa">aes</span>(x <span style="color:#89dceb;font-weight:bold">=</span> year, y <span style="color:#89dceb;font-weight:bold">=</span> service_prop, fill <span style="color:#89dceb;font-weight:bold">=</span> service, alpha <span style="color:#89dceb;font-weight:bold">=</span> time_bin,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 2</span><span>                                          tooltip <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">sprintf</span>(<span style="color:#a6e3a1">&#39;%s: %.2f%%&#39;</span>, service, service_prop <span style="color:#89dceb;font-weight:bold">*</span> <span style="color:#fab387">100</span>))) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 3</span><span>  <span style="color:#89b4fa">geom_bar_interactive</span>(stat <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;summary&#39;</span>, width <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">0.8</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 4</span><span>  <span style="color:#89b4fa">theme</span>(legend.position <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;right&#39;</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 5</span><span>  <span style="color:#89b4fa">scale_fill_viridis_d</span>(option <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;inferno&#39;</span>, direction <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">-1</span>, begin <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">0.1</span>, end <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">0.9</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 6</span><span>  <span style="color:#89b4fa">scale_alpha_discrete</span>(range <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">c</span>(<span style="color:#fab387">1</span>, <span style="color:#fab387">0.6</span>), guide <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;none&#39;</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 7</span><span>  <span style="color:#89b4fa">labs</span>(x <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;year&#39;</span>, y <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;proportion of total traffic&#39;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 8</span><span>       caption <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;hover over the plot to see percentages&#39;</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 9</span><span>  <span style="color:#89b4fa">scale_x_continuous</span>(breaks <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">c</span>(<span style="color:#fab387">2020</span>, <span style="color:#fab387">2021</span>, <span style="color:#fab387">2022</span>, <span style="color:#fab387">2023</span>, <span style="color:#fab387">2024</span>, <span style="color:#fab387">2026</span>),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">10</span><span>                     labels <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">c</span>(<span style="color:#a6e3a1">&#39;2020&#39;</span>, <span style="color:#a6e3a1">&#39;2021&#39;</span>, <span style="color:#a6e3a1">&#39;2022&#39;</span>, <span style="color:#a6e3a1">&#39;2023&#39;</span>, <span style="color:#a6e3a1">&#39;2024&#39;</span>, <span style="color:#a6e3a1">&#39;pre-pandemic&#39;</span>)) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">11</span><span>  plot_theme <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">12</span><span>  <span style="color:#89b4fa">theme</span>(text <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">element_text</span>(size <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">14</span>),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">13</span><span>        plot.caption <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">element_text</span>(hjust <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">0.5</span>, size <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">11</span>, face <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;italic&#39;</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">14</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">15</span><span><span style="color:#89b4fa">girafe</span>(ggobj <span style="color:#89dceb;font-weight:bold">=</span> g, options <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">list</span>(<span style="color:#89b4fa">opts_sizing</span>(rescale <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89dceb">T</span>, width <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">.7</span>)))</span></span></code></pre></div>
+<div class="girafe html-widget html-fill-item" id="htmlwidget-1" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"html":"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='ggiraph-svg' role='graphics-document' id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18' viewBox='0 0 504 360'>\n <defs id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_defs'>\n  <clipPath id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_c1'>\n   <rect x='0' y='0' width='504' height='360'/>\n  <\/clipPath>\n  <clipPath id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_c2'>\n   <rect x='48.06' y='5.48' width='308.16' height='301.92'/>\n  <\/clipPath>\n <\/defs>\n <g id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_rootg' class='ggiraph-svg-rootg'>\n  <g clip-path='url(#svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_c1)'>\n   <rect x='0' y='0' width='504' height='360' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='0.75' stroke-linejoin='round' stroke-linecap='round' class='ggiraph-svg-bg'/>\n   <rect x='0' y='0' width='504' height='360' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n  <\/g>\n  <g clip-path='url(#svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_c2)'>\n   <rect x='48.06' y='5.48' width='308.16' height='301.92' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e1' x='62.07' y='19.2' width='32.96' height='134' fill='#F6D645' fill-opacity='1' stroke='none' title='Subway: 48.82%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e2' x='103.27' y='19.2' width='32.96' height='137.24' fill='#F6D645' fill-opacity='1' stroke='none' title='Subway: 50.00%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e3' x='144.47' y='19.2' width='32.96' height='148.53' fill='#F6D645' fill-opacity='1' stroke='none' title='Subway: 54.11%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e4' x='185.67' y='19.2' width='32.96' height='154.31' fill='#F6D645' fill-opacity='1' stroke='none' title='Subway: 56.22%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e5' x='226.86' y='19.2' width='32.96' height='156.17' fill='#F6D645' fill-opacity='1' stroke='none' title='Subway: 56.90%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e6' x='309.26' y='19.2' width='32.96' height='160.91' fill='#F6D645' fill-opacity='1' stroke='none' title='Subway: 58.62%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e7' x='62.07' y='153.21' width='32.96' height='53.37' fill='#FB9507' fill-opacity='1' stroke='none' title='Bus: 19.44%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e8' x='226.86' y='175.37' width='32.96' height='53.63' fill='#FB9507' fill-opacity='1' stroke='none' title='Bus: 19.54%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e9' x='185.67' y='173.51' width='32.96' height='57.09' fill='#FB9507' fill-opacity='1' stroke='none' title='Bus: 20.80%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e10' x='144.47' y='167.73' width='32.96' height='62.19' fill='#FB9507' fill-opacity='1' stroke='none' title='Bus: 22.66%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e11' x='309.26' y='180.11' width='32.96' height='63.64' fill='#FB9507' fill-opacity='1' stroke='none' title='Bus: 23.19%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e12' x='103.27' y='156.45' width='32.96' height='68.93' fill='#FB9507' fill-opacity='1' stroke='none' title='Bus: 25.12%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e13' x='309.26' y='243.75' width='32.96' height='31.84' fill='#E65D30' fill-opacity='1' stroke='none' title='BridgesAndTunnels: 11.60%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e14' x='226.86' y='229' width='32.96' height='44.61' fill='#E65D30' fill-opacity='1' stroke='none' title='BridgesAndTunnels: 16.25%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e15' x='185.67' y='230.6' width='32.96' height='45.08' fill='#E65D30' fill-opacity='1' stroke='none' title='BridgesAndTunnels: 16.42%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e16' x='144.47' y='229.92' width='32.96' height='47.99' fill='#E65D30' fill-opacity='1' stroke='none' title='BridgesAndTunnels: 17.49%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e17' x='103.27' y='225.38' width='32.96' height='55.67' fill='#E65D30' fill-opacity='1' stroke='none' title='BridgesAndTunnels: 20.28%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e18' x='62.07' y='206.57' width='32.96' height='74.62' fill='#E65D30' fill-opacity='1' stroke='none' title='BridgesAndTunnels: 27.19%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e19' x='103.27' y='281.05' width='32.96' height='6.37' fill='#BB3754' fill-opacity='1' stroke='none' title='LIRR: 2.32%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e20' x='62.07' y='281.2' width='32.96' height='6.45' fill='#BB3754' fill-opacity='1' stroke='none' title='LIRR: 2.35%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e21' x='144.47' y='277.92' width='32.96' height='7.63' fill='#BB3754' fill-opacity='1' stroke='none' title='LIRR: 2.78%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e22' x='185.67' y='275.68' width='32.96' height='8.7' fill='#BB3754' fill-opacity='1' stroke='none' title='LIRR: 3.17%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e23' x='309.26' y='275.59' width='32.96' height='8.69' fill='#BB3754' fill-opacity='1' stroke='none' title='LIRR: 3.17%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e24' x='226.86' y='273.6' width='32.96' height='9.8' fill='#BB3754' fill-opacity='1' stroke='none' title='LIRR: 3.57%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e25' x='62.07' y='287.65' width='32.96' height='4.16' fill='#86216B' fill-opacity='1' stroke='none' title='MetroNorth: 1.52%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e26' x='103.27' y='287.42' width='32.96' height='4.78' fill='#86216B' fill-opacity='1' stroke='none' title='MetroNorth: 1.74%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e27' x='144.47' y='285.54' width='32.96' height='6.75' fill='#86216B' fill-opacity='1' stroke='none' title='MetroNorth: 2.46%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e28' x='185.67' y='284.38' width='32.96' height='7.79' fill='#86216B' fill-opacity='1' stroke='none' title='MetroNorth: 2.84%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e29' x='309.26' y='284.28' width='32.96' height='8.09' fill='#86216B' fill-opacity='1' stroke='none' title='MetroNorth: 2.95%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e30' x='226.86' y='283.4' width='32.96' height='8.53' fill='#86216B' fill-opacity='1' stroke='none' title='MetroNorth: 3.11%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e31' x='309.26' y='292.37' width='32.96' height='0.88' fill='#500E6C' fill-opacity='1' stroke='none' title='AccessARide: 0.32%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e32' x='144.47' y='292.3' width='32.96' height='1.12' fill='#500E6C' fill-opacity='1' stroke='none' title='AccessARide: 0.41%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e33' x='103.27' y='292.2' width='32.96' height='1.23' fill='#500E6C' fill-opacity='1' stroke='none' title='AccessARide: 0.45%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e34' x='185.67' y='292.17' width='32.96' height='1.24' fill='#500E6C' fill-opacity='1' stroke='none' title='AccessARide: 0.45%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e35' x='226.86' y='291.94' width='32.96' height='1.47' fill='#500E6C' fill-opacity='1' stroke='none' title='AccessARide: 0.53%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e36' x='62.07' y='291.81' width='32.96' height='1.61' fill='#500E6C' fill-opacity='1' stroke='none' title='AccessARide: 0.59%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e37' x='103.27' y='293.44' width='32.96' height='0.24' fill='#170C3A' fill-opacity='1' stroke='none' title='SIRailway: 0.09%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e38' x='62.07' y='293.42' width='32.96' height='0.26' fill='#170C3A' fill-opacity='1' stroke='none' title='SIRailway: 0.10%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e39' x='144.47' y='293.42' width='32.96' height='0.26' fill='#170C3A' fill-opacity='1' stroke='none' title='SIRailway: 0.10%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e40' x='185.67' y='293.41' width='32.96' height='0.27' fill='#170C3A' fill-opacity='1' stroke='none' title='SIRailway: 0.10%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e41' x='226.86' y='293.4' width='32.96' height='0.28' fill='#170C3A' fill-opacity='1' stroke='none' title='SIRailway: 0.10%'/>\n   <rect id='svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_e42' x='309.26' y='293.26' width='32.96' height='0.42' fill='#170C3A' fill-opacity='1' stroke='none' title='SIRailway: 0.15%'/>\n   <rect x='48.06' y='5.48' width='308.16' height='301.92' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n  <\/g>\n  <g clip-path='url(#svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18_c1)'>\n   <text x='21.36' y='297.69' font-size='8.4pt' font-family='Helvetica' fill='#4D4D4D' fill-opacity='1'>0.00<\/text>\n   <text x='21.36' y='229.07' font-size='8.4pt' font-family='Helvetica' fill='#4D4D4D' fill-opacity='1'>0.25<\/text>\n   <text x='21.36' y='160.45' font-size='8.4pt' font-family='Helvetica' fill='#4D4D4D' fill-opacity='1'>0.50<\/text>\n   <text x='21.36' y='91.84' font-size='8.4pt' font-family='Helvetica' fill='#4D4D4D' fill-opacity='1'>0.75<\/text>\n   <text x='21.36' y='23.22' font-size='8.4pt' font-family='Helvetica' fill='#4D4D4D' fill-opacity='1'>1.00<\/text>\n   <polyline points='45.32,293.68 48.06,293.68' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='45.32,225.06 48.06,225.06' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='45.32,156.44 48.06,156.44' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='45.32,87.82 48.06,87.82' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='45.32,19.20 48.06,19.20' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='78.55,310.14 78.55,307.40' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='119.75,310.14 119.75,307.40' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='160.95,310.14 160.95,307.40' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='202.14,310.14 202.14,307.40' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='243.34,310.14 243.34,307.40' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='325.74,310.14 325.74,307.40' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='butt'/>\n   <text x='66.11' y='320.36' font-size='8.4pt' font-family='Helvetica' fill='#4D4D4D' fill-opacity='1'>2020<\/text>\n   <text x='107.31' y='320.36' font-size='8.4pt' font-family='Helvetica' fill='#4D4D4D' fill-opacity='1'>2021<\/text>\n   <text x='148.5' y='320.36' font-size='8.4pt' font-family='Helvetica' fill='#4D4D4D' fill-opacity='1'>2022<\/text>\n   <text x='189.7' y='320.36' font-size='8.4pt' font-family='Helvetica' fill='#4D4D4D' fill-opacity='1'>2023<\/text>\n   <text x='230.9' y='320.36' font-size='8.4pt' font-family='Helvetica' fill='#4D4D4D' fill-opacity='1'>2024<\/text>\n   <text x='291.55' y='320.36' font-size='8.4pt' font-family='Helvetica' fill='#4D4D4D' fill-opacity='1'>pre-pandemic<\/text>\n   <text x='188.53' y='335.62' font-size='10.5pt' font-family='Helvetica'>year<\/text>\n   <text transform='translate(15.52,229.96) rotate(-90.00)' font-size='10.5pt' font-family='Helvetica'>proportion of total traffic<\/text>\n   <rect x='367.18' y='81.17' width='131.34' height='150.54' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <text x='372.66' y='98.24' font-size='10.5pt' font-family='Helvetica'>service<\/text>\n   <rect x='372.66' y='105.27' width='17.28' height='17.28' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <rect x='373.37' y='105.98' width='15.86' height='15.86' fill='#F6D645' fill-opacity='1' stroke='none'/>\n   <rect x='372.66' y='122.55' width='17.28' height='17.28' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <rect x='373.37' y='123.26' width='15.86' height='15.86' fill='#FB9507' fill-opacity='1' stroke='none'/>\n   <rect x='372.66' y='139.83' width='17.28' height='17.28' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <rect x='373.37' y='140.54' width='15.86' height='15.86' fill='#E65D30' fill-opacity='1' stroke='none'/>\n   <rect x='372.66' y='157.11' width='17.28' height='17.28' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <rect x='373.37' y='157.82' width='15.86' height='15.86' fill='#BB3754' fill-opacity='1' stroke='none'/>\n   <rect x='372.66' y='174.39' width='17.28' height='17.28' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <rect x='373.37' y='175.1' width='15.86' height='15.86' fill='#86216B' fill-opacity='1' stroke='none'/>\n   <rect x='372.66' y='191.67' width='17.28' height='17.28' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <rect x='373.37' y='192.38' width='15.86' height='15.86' fill='#500E6C' fill-opacity='1' stroke='none'/>\n   <rect x='372.66' y='208.95' width='17.28' height='17.28' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <rect x='373.37' y='209.66' width='15.86' height='15.86' fill='#170C3A' fill-opacity='1' stroke='none'/>\n   <text x='395.42' y='117.92' font-size='8.4pt' font-family='Helvetica'>Subway<\/text>\n   <text x='395.42' y='135.2' font-size='8.4pt' font-family='Helvetica'>Bus<\/text>\n   <text x='395.42' y='152.48' font-size='8.4pt' font-family='Helvetica'>BridgesAndTunnels<\/text>\n   <text x='395.42' y='169.76' font-size='8.4pt' font-family='Helvetica'>LIRR<\/text>\n   <text x='395.42' y='187.04' font-size='8.4pt' font-family='Helvetica'>MetroNorth<\/text>\n   <text x='395.42' y='204.32' font-size='8.4pt' font-family='Helvetica'>AccessARide<\/text>\n   <text x='395.42' y='221.6' font-size='8.4pt' font-family='Helvetica'>SIRailway<\/text>\n   <text x='108.27' y='352.09' font-size='8.25pt' font-style='italic' font-family='Helvetica'>hover over the plot to see percentages<\/text>\n  <\/g>\n <\/g>\n<\/svg>","js":null,"uid":"svg_dd4c0c96_4add_40eb_be27_d33a4b5cde18","ratio":1.4,"settings":{"tooltip":{"css":".tooltip_SVGID_ { padding:5px;background:black;color:white;border-radius:2px;text-align:left; ; position:absolute;pointer-events:none;z-index:999;}","placement":"doc","opacity":0.9,"offx":10,"offy":10,"use_cursor_pos":true,"use_fill":false,"use_stroke":false,"delay_over":200,"delay_out":500},"hover":{"css":".hover_data_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_data_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_data_SVGID_ { fill:orange;stroke:black; }\nline.hover_data_SVGID_, polyline.hover_data_SVGID_ { fill:none;stroke:orange; }\nrect.hover_data_SVGID_, polygon.hover_data_SVGID_, path.hover_data_SVGID_ { fill:orange;stroke:none; }\nimage.hover_data_SVGID_ { stroke:orange; }","reactive":true,"nearest_distance":null},"hover_inv":{"css":""},"hover_key":{"css":".hover_key_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_key_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_key_SVGID_ { fill:orange;stroke:black; }\nline.hover_key_SVGID_, polyline.hover_key_SVGID_ { fill:none;stroke:orange; }\nrect.hover_key_SVGID_, polygon.hover_key_SVGID_, path.hover_key_SVGID_ { fill:orange;stroke:none; }\nimage.hover_key_SVGID_ { stroke:orange; }","reactive":true},"hover_theme":{"css":".hover_theme_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_theme_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_theme_SVGID_ { fill:orange;stroke:black; }\nline.hover_theme_SVGID_, polyline.hover_theme_SVGID_ { fill:none;stroke:orange; }\nrect.hover_theme_SVGID_, polygon.hover_theme_SVGID_, path.hover_theme_SVGID_ { fill:orange;stroke:none; }\nimage.hover_theme_SVGID_ { stroke:orange; }","reactive":true},"select":{"css":".select_data_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_data_SVGID_ { stroke:none;fill:red; }\ncircle.select_data_SVGID_ { fill:red;stroke:black; }\nline.select_data_SVGID_, polyline.select_data_SVGID_ { fill:none;stroke:red; }\nrect.select_data_SVGID_, polygon.select_data_SVGID_, path.select_data_SVGID_ { fill:red;stroke:none; }\nimage.select_data_SVGID_ { stroke:red; }","type":"multiple","only_shiny":true,"selected":[]},"select_inv":{"css":""},"select_key":{"css":".select_key_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_key_SVGID_ { stroke:none;fill:red; }\ncircle.select_key_SVGID_ { fill:red;stroke:black; }\nline.select_key_SVGID_, polyline.select_key_SVGID_ { fill:none;stroke:red; }\nrect.select_key_SVGID_, polygon.select_key_SVGID_, path.select_key_SVGID_ { fill:red;stroke:none; }\nimage.select_key_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"select_theme":{"css":".select_theme_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_theme_SVGID_ { stroke:none;fill:red; }\ncircle.select_theme_SVGID_ { fill:red;stroke:black; }\nline.select_theme_SVGID_, polyline.select_theme_SVGID_ { fill:none;stroke:red; }\nrect.select_theme_SVGID_, polygon.select_theme_SVGID_, path.select_theme_SVGID_ { fill:red;stroke:none; }\nimage.select_theme_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"zoom":{"min":1,"max":1,"duration":300},"toolbar":{"position":"topright","pngname":"diagram","tooltips":null,"fixed":false,"hidden":[],"delay_over":200,"delay_out":500},"sizing":{"rescale":true,"width":0.7}}},"evals":[],"jsHooks":[]}</script>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" style="color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 1</span><span><span style="color:#89b4fa">ggplot</span>(mta_data_long, <span style="color:#89b4fa">aes</span>(x <span style="color:#89dceb;font-weight:bold">=</span> date, y <span style="color:#89dceb;font-weight:bold">=</span> pre_percentage, color <span style="color:#89dceb;font-weight:bold">=</span> service, fill <span style="color:#89dceb;font-weight:bold">=</span> service)) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 2</span><span>  <span style="color:#89b4fa">geom_line</span>(color <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;grey80&#39;</span>, linewidth <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">0.2</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 3</span><span>  <span style="color:#89b4fa">geom_smooth</span>(method <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;lm&#39;</span>, linewidth <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">2</span>, alpha <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">1</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 4</span><span>  <span style="color:#89b4fa">geom_hline</span>(yintercept <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">100</span>, linetype <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;dashed&#39;</span>, color <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;tomato2&#39;</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 5</span><span>  <span style="color:#89b4fa">facet_wrap</span>(<span style="color:#89dceb;font-weight:bold">~</span>service, nrow <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">2</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 6</span><span>  <span style="color:#89b4fa">scale_color_viridis_d</span>(option <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;inferno&#39;</span>, direction <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">-1</span>, begin <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">0.1</span>, end <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">0.9</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 7</span><span>  <span style="color:#89b4fa">scale_fill_viridis_d</span>(option <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;inferno&#39;</span>, direction <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">-1</span>, begin <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">0.1</span>, end <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">0.9</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 8</span><span>  <span style="color:#89b4fa">labs</span>(x <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;date&#39;</span>, y <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;percentage of pre-pandemic traffic&#39;</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c"> 9</span><span>  plot_theme <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">10</span><span>  <span style="color:#89b4fa">theme</span>(text <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">element_text</span>(size <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">14</span>), legend.position <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#a6e3a1">&#39;top&#39;</span>) <span style="color:#89dceb;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c">11</span><span>  <span style="color:#89b4fa">guides</span>(color <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#89b4fa">guide_legend</span>(nrow <span style="color:#89dceb;font-weight:bold">=</span> <span style="color:#fab387">1</span>))</span></span></code></pre></div>
+<img src="/project_mta_files/figure-html/unnamed-chunk-7-1.png" width="960" style="display: block; margin: auto;" />
+
+  </content>
+
+    </main>
+    <footer>
+      
+  <span>© 2024 Camille Gasser</span>
+
+
+  <span>
+    |
+    Made with
+    <a href="https://github.com/maolonglong/hugo-simple/">Hugo Simple</a>
+  </span>
+
+
+    </footer>
+
+    </body>
+</html>
