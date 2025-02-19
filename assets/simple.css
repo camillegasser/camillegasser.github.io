@@ -11,7 +11,7 @@
   --bg: #fff;
   --accent-bg: #f5f7ff;
   --text: #212121;
-  --text-light: #585858;
+  --text-light: #575757;
   --border: #898EA4;
   --accent: #00afb9;
   --accent-hover: #1266e2;
@@ -385,6 +385,7 @@ section:last-child {
 
 details {
   padding: 0.7rem 1rem;
+  font-family: var(--mono-font);
 }
 
 summary {
@@ -410,7 +411,8 @@ details[open] > :last-child {
 /* Format tables */
 table {
   border-collapse: collapse;
-  margin: 1.5rem 0;
+  border: 0px solid;
+  margin: 0;
 }
 
 figure > table {
@@ -422,7 +424,9 @@ td,
 th {
   border: 1px solid var(--border);
   text-align: start;
+  outline: None;
   padding: 0.5rem;
+  white-space: nowrap;
 }
 
 th {
@@ -593,8 +597,11 @@ figure > picture > img {
 figcaption {
   text-align: center;
   font-size: 0.9rem;
-  color: var(--text-light);
+  color: #939393;
   margin-block: 1rem;
+  margin-bottom: 2rem;
+  margin-top: 0.5em;
+  width: 65%;
 }
 
 blockquote {
@@ -625,6 +632,7 @@ kbd,
 samp {
   font-family: var(--mono-font);
   color: var(--code);
+  font-size: 0.7rem;
 }
 
 kbd {

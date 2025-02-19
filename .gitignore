@@ -2,3 +2,5 @@
 .Rprofile
 .DS_Store
 .hugo*
+.Rdata
+.Rhistory

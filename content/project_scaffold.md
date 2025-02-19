@@ -1,4 +1,4 @@
-<projtitle>Interactions between motor behavior & episodic memory</projtitle></div>
+<projtitle>Interactions between motor behavior & episodic memory</projtitle>
 
 <div style="display: flex; justify-content: left; align-items: top; flex-wrap: wrap; gap: 40px; padding-top: 15px; padding-bottom:15px">
 
