@@ -47,6 +47,6 @@ title: Camille Gasser, PhD
 </div>
 
  <div align="center">
- <a href="https://www.linkedin.com/in/camille-gasser-56266a161/" target="_blank"><img src="/images/linkedin_icon.png" style="width: 30px; height: auto"></a>&ensp;
+ <a href="https://www.linkedin.com/in/camille-claire-gasser/" target="_blank"><img src="/images/linkedin_icon.png" style="width: 30px; height: auto"></a>&ensp;
  <a href="https://github.com/camillegasser" target="_blank"><img src="/images/github_icon.png" style="width: 30px; height: auto"></a>&ensp;
  <a href="mailto:ccgasser@gmail.com" target="_blank"><img src="/images/email_icon.png" style="width: 30px; height: auto"></a></div>
