@@ -44,9 +44,12 @@ menu:
     - name: data viz
       pageRef: /viz
       weight: 20
-    - name: resume & skills
+    - name: resume
       pageRef: /resume
       weight: 30
+    - name: publications
+      pageRef: /papers
+      weight: 33
 pagination:
   pagerSize: 16
 outputs:

@@ -1,5 +1,5 @@
 ---
-title: Resume & Skills
+title: Resume
 ---
 
 <div align="center">
@@ -41,16 +41,15 @@ title: Resume & Skills
 <p style="margin-bottom:0px"><b>tools & applications</b></p>
 <div class="skills-container">
   <span class="skill-tag" style="background-color:var(--accent)">Qualtrics</span>
-  <span class="skill-tag" style="background-color:var(--accent)">Google Forms</span>
+  <span class="skill-tag" style="background-color:var(--accent)">Gorilla</span>
   <span class="skill-tag" style="background-color:var(--accent)">Tableau</span>
   <span class="skill-tag" style="background-color:var(--accent)">Microsoft Excel</span>
-  <span class="skill-tag" style="background-color:var(--accent)">Microsoft PowerPoint</span>
+  <span class="skill-tag" style="background-color:var(--accent)">Adobe Illustrator</span>
   <span class="skill-tag" style="background-color:var(--accent)">GitHub / git</span>
 </div>
 
 <p style="margin-bottom:0px"><b>statistical & analytical approaches</b></p>
 <div class="skills-container" style="margin-bottom:25px">
-  <span class="skill-tag">descriptive statistics</span>
   <span class="skill-tag">hypothesis testing</span>
   <span class="skill-tag">regression modeling</span>
   <span class="skill-tag">mediation analysis</span>
